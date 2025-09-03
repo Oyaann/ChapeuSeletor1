@@ -1,6 +1,7 @@
 package com.example.chapeuseletor
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -18,25 +19,27 @@ class MainActivity : AppCompatActivity() {
 
         // 2. Definir o que acontece quando o botão é clicado
         button.setOnClickListener {
-            // 3. Descobrir qual RadioButton foi selecionado
             val idSelecionado = radioGroup.checkedRadioButtonId
 
-            // 4. Verificar se alguma opção foi realmente selecionada
             if (idSelecionado == -1) {
-                // Mostra uma mensagem de erro se nada foi selecionado
                 Toast.makeText(this, "Por favor, selecione uma opção!", Toast.LENGTH_SHORT).show()
             } else {
-                // 5. Determinar a casa com base na seleção
                 val casa = when (idSelecionado) {
-                    R.id.radioCoragem -> "Grifinória!"
-                    R.id.radioSabedoria -> "Corvinal!"
-                    R.id.radioAmbicao -> "Sonserina!"
-                    R.id.radioLealdade -> "Lufa-Lufa!"
-                    else -> "Casa Indefinida" // Caso de segurança, não deve acontecer
+                    R.id.radioCoragem -> "Grifinória" // Removido o "!"
+                    R.id.radioSabedoria -> "Corvinal"
+                    R.id.radioAmbicao -> "Sonserina"
+                    R.id.radioLealdade -> "Lufa-Lufa"
+                    else -> "Indefinida"
                 }
 
-                // 6. Exibir o resultado em um Toast
-                Toast.makeText(this, "Você pertence à... $casa", Toast.LENGTH_LONG).show()
+                // 1. Criar uma "Intenção" de ir para a próxima tela
+                val intent = Intent(this, ResultadoActivity::class.java)
+
+                // 2. Adicionar a informação da casa como um "extra" na intenção
+                intent.putExtra("EXTRA_CASA_NOME", casa)
+
+                // 3. Iniciar a nova activity
+                startActivity(intent)
             }
         }
     }
